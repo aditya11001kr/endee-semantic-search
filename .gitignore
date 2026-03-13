@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+*.egg
+
+# Env
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Models (downloaded at runtime)
+backend/models/
+.cache/
+
+# Endee build artifacts (if building locally from forked repo)
+endee/build/
+endee/cmake-build-*/

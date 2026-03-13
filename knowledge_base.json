@@ -1,0 +1,302 @@
+[
+  {
+    "id": "doc_001",
+    "title": "Python Async Exception Handling",
+    "content": "In asyncio, exceptions raised inside coroutines are captured and re-raised when you await the task. Use try-except blocks inside async functions just like synchronous code. For fire-and-forget tasks, wrap them in asyncio.create_task and attach an error callback using add_done_callback.",
+    "category": "python"
+  },
+  {
+    "id": "doc_002",
+    "title": "Reducing Memory Usage in Python",
+    "content": "To reduce memory in Python: use __slots__ in classes to avoid per-instance dicts, prefer generators over lists for large sequences, use array module or numpy instead of plain lists for numeric data, and profile with tracemalloc or memory_profiler to find hotspots.",
+    "category": "python"
+  },
+  {
+    "id": "doc_003",
+    "title": "Python Decorators Explained",
+    "content": "A decorator is a function that takes another function and extends its behavior without modifying it. Use functools.wraps inside your decorator to preserve the original function's metadata. Common use cases include caching, logging, access control, and retrying.",
+    "category": "python"
+  },
+  {
+    "id": "doc_004",
+    "title": "Type Hints in Python 3.10+",
+    "content": "Python 3.10 introduced the union syntax X | Y instead of Union[X, Y]. Use the typing module for complex hints. Type hints improve IDE support and enable static analysis with mypy or pyright. They are not enforced at runtime unless you use a library like pydantic.",
+    "category": "python"
+  },
+  {
+    "id": "doc_005",
+    "title": "Python Context Managers",
+    "content": "Context managers implement __enter__ and __exit__ methods and are used with the 'with' statement. Use contextlib.contextmanager to create lightweight context managers from generator functions. They're ideal for resource cleanup like file handles, locks, and database connections.",
+    "category": "python"
+  },
+  {
+    "id": "doc_006",
+    "title": "Python List Comprehensions vs Generator Expressions",
+    "content": "List comprehensions create the full list in memory immediately. Generator expressions are lazy — they yield values one at a time. For large datasets or pipelines, prefer generators. Use list() to materialize a generator when you need random access or multiple passes.",
+    "category": "python"
+  },
+  {
+    "id": "doc_007",
+    "title": "Python GIL and Multithreading",
+    "content": "The GIL (Global Interpreter Lock) prevents multiple threads from executing Python bytecode simultaneously. For CPU-bound tasks, use multiprocessing instead of threading. For I/O-bound tasks, threading or asyncio works fine since the GIL is released during I/O waits.",
+    "category": "python"
+  },
+  {
+    "id": "doc_008",
+    "title": "Python dataclasses Module",
+    "content": "dataclasses (Python 3.7+) auto-generate __init__, __repr__, and __eq__ based on annotated fields. Use field() for defaults and metadata. They're lighter than pydantic but lack validation. Use frozen=True for immutable instances that can be used as dict keys or set members.",
+    "category": "python"
+  },
+  {
+    "id": "doc_009",
+    "title": "Understanding Gradient Descent",
+    "content": "Gradient descent minimizes a loss function by iteratively moving in the direction of the negative gradient. Stochastic gradient descent (SGD) uses a single sample per update. Mini-batch SGD balances noise and efficiency. Adaptive optimizers like Adam adjust per-parameter learning rates automatically.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_010",
+    "title": "Transformer Architecture Overview",
+    "content": "Transformers use self-attention to relate positions in a sequence to each other. The encoder maps input to contextualized embeddings; the decoder generates output autoregressively. Positional encodings add sequence order information since attention is permutation-invariant.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_011",
+    "title": "Fine-Tuning Pre-trained Language Models",
+    "content": "Fine-tuning adapts a pre-trained model to a downstream task by continuing training on labeled data. Use a low learning rate (1e-5 to 3e-5) to avoid catastrophic forgetting. Parameter-efficient fine-tuning (PEFT) methods like LoRA reduce the number of trainable parameters significantly.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_012",
+    "title": "Overfitting and Regularization",
+    "content": "Overfitting occurs when a model memorizes training data and fails to generalize. Regularization techniques include L1/L2 weight penalties, dropout (randomly zeroing activations), data augmentation, and early stopping based on validation loss.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_013",
+    "title": "Attention Mechanism in Deep Learning",
+    "content": "Attention allows a model to focus on relevant parts of the input when producing each output token. Scaled dot-product attention computes similarity between query and key vectors, scales by sqrt(d_k) to prevent vanishing gradients, and applies softmax to get attention weights over values.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_014",
+    "title": "Embeddings and Vector Representations",
+    "content": "Embeddings map discrete objects (words, users, products) into continuous vector spaces where similar items are closer together. Word2Vec, GloVe, and transformer-based embeddings capture semantic relationships. The quality of embeddings directly impacts retrieval accuracy in vector databases.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_015",
+    "title": "Retrieval-Augmented Generation (RAG)",
+    "content": "RAG combines a retrieval system with a generative language model. Given a query, a retriever fetches relevant documents from a knowledge base; these are appended to the prompt before generation. RAG reduces hallucinations and keeps model outputs grounded in real documents.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_016",
+    "title": "Cross-Entropy Loss Explained",
+    "content": "Cross-entropy loss measures the difference between predicted probability distributions and true labels. For classification, it penalizes confident wrong predictions heavily. Lower cross-entropy means the model's predicted probabilities are close to the true distribution.",
+    "category": "machine_learning"
+  },
+  {
+    "id": "doc_017",
+    "title": "Database Indexing Strategies",
+    "content": "Indexes speed up query lookups at the cost of write overhead and storage. B-tree indexes work well for range queries and equality checks. Hash indexes are faster for equality-only lookups. Partial indexes only index rows matching a condition, saving space for sparse data.",
+    "category": "databases"
+  },
+  {
+    "id": "doc_018",
+    "title": "ACID Transactions in Relational Databases",
+    "content": "ACID stands for Atomicity, Consistency, Isolation, Durability. Transactions either fully commit or fully rollback. Isolation levels (Read Committed, Repeatable Read, Serializable) control how concurrent transactions see each other's changes, balancing safety and throughput.",
+    "category": "databases"
+  },
+  {
+    "id": "doc_019",
+    "title": "NoSQL vs SQL — When to Use Each",
+    "content": "Use SQL databases for structured data with complex joins, strong consistency requirements, and well-defined schemas. Use NoSQL (document, key-value, wide-column) for unstructured data, horizontal scaling needs, and flexible schemas. Many modern systems use both (polyglot persistence).",
+    "category": "databases"
+  },
+  {
+    "id": "doc_020",
+    "title": "Database Query Optimization",
+    "content": "Query optimization involves rewriting queries, using appropriate indexes, and analyzing query plans with EXPLAIN. Avoid SELECT *, use covering indexes, prefer JOINs over subqueries in most cases, and ensure statistics are up to date so the query planner makes good decisions.",
+    "category": "databases"
+  },
+  {
+    "id": "doc_021",
+    "title": "CAP Theorem in Distributed Systems",
+    "content": "The CAP theorem states a distributed system can provide at most two of: Consistency, Availability, Partition tolerance. In practice, network partitions are unavoidable, so the real choice is between CP (consistent but may be unavailable) and AP (available but may return stale data).",
+    "category": "databases"
+  },
+  {
+    "id": "doc_022",
+    "title": "Caching Strategies — LRU, LFU, Write-Through",
+    "content": "LRU (Least Recently Used) evicts the item not accessed for the longest time. LFU evicts the least frequently accessed item. Write-through writes to cache and DB simultaneously for consistency. Write-back batches DB writes for throughput. Choose based on read/write ratio and staleness tolerance.",
+    "category": "system_design"
+  },
+  {
+    "id": "doc_023",
+    "title": "Load Balancing Algorithms",
+    "content": "Round-robin distributes requests evenly. Least-connections routes to the server with fewest active connections. IP-hash ensures a client always hits the same server (useful for session affinity). Health checks detect and remove unhealthy servers from the pool automatically.",
+    "category": "system_design"
+  },
+  {
+    "id": "doc_024",
+    "title": "Microservices vs Monolith Architecture",
+    "content": "Monoliths are simpler to develop and deploy initially but become hard to scale teams and components independently. Microservices allow independent scaling and deployment but introduce network latency, distributed tracing complexity, and eventual consistency challenges.",
+    "category": "system_design"
+  },
+  {
+    "id": "doc_025",
+    "title": "Message Queues and Event-Driven Architecture",
+    "content": "Message queues (Kafka, RabbitMQ) decouple producers from consumers, enabling async processing and buffering traffic spikes. Event-driven systems react to events rather than polling. Use dead-letter queues for failed messages and idempotent consumers to handle duplicate delivery.",
+    "category": "system_design"
+  },
+  {
+    "id": "doc_026",
+    "title": "Rate Limiting Techniques",
+    "content": "Token bucket allows bursts up to bucket capacity. Sliding window log is accurate but memory-intensive. Fixed window is simple but allows burst at window boundaries. Distributed rate limiting requires a shared counter, often implemented in Redis using INCR and EXPIRE.",
+    "category": "system_design"
+  },
+  {
+    "id": "doc_027",
+    "title": "API Design Best Practices",
+    "content": "Use nouns not verbs in REST endpoints. Version your API (/v1/). Return appropriate HTTP status codes. Paginate large collections. Use HATEOAS links for discoverability. Design idempotent PUT and DELETE operations. Document with OpenAPI/Swagger for tooling support.",
+    "category": "system_design"
+  },
+  {
+    "id": "doc_028",
+    "title": "Content Delivery Networks (CDN)",
+    "content": "CDNs cache static assets at edge locations close to users, reducing latency and origin server load. Use cache-control headers to control TTL. Invalidate cache on deploys. CDNs also provide DDoS protection and TLS termination at the edge.",
+    "category": "system_design"
+  },
+  {
+    "id": "doc_029",
+    "title": "Merge Sort Algorithm",
+    "content": "Merge sort divides the array in half recursively until single elements, then merges sorted halves. Time complexity O(n log n) in all cases. Space complexity O(n) for auxiliary arrays. Stable sort — preserves relative order of equal elements. Preferred for linked lists.",
+    "category": "algorithms"
+  },
+  {
+    "id": "doc_030",
+    "title": "Dynamic Programming — Memoization vs Tabulation",
+    "content": "Memoization (top-down) stores results of recursive calls in a hash map, computing only needed subproblems. Tabulation (bottom-up) iterates through subproblems in order, filling a table. Tabulation avoids recursion stack overhead; memoization is easier to reason about initially.",
+    "category": "algorithms"
+  },
+  {
+    "id": "doc_031",
+    "title": "Graph Traversal — BFS vs DFS",
+    "content": "BFS explores nodes level by level using a queue — ideal for shortest path in unweighted graphs. DFS explores as deep as possible using a stack or recursion — ideal for cycle detection, topological sort, and connectivity. Both run in O(V + E) time.",
+    "category": "algorithms"
+  },
+  {
+    "id": "doc_032",
+    "title": "Binary Search and Its Variants",
+    "content": "Binary search finds a target in a sorted array in O(log n) by halving the search space each step. Variants include finding the leftmost/rightmost insertion point, searching in rotated arrays, and searching by answer (binary search on the answer space for optimization problems).",
+    "category": "algorithms"
+  },
+  {
+    "id": "doc_033",
+    "title": "Dijkstra's Shortest Path Algorithm",
+    "content": "Dijkstra finds the shortest path from a source to all nodes in a weighted graph with non-negative edges. Uses a min-heap priority queue. Time complexity O((V + E) log V). For negative edges, use Bellman-Ford instead.",
+    "category": "algorithms"
+  },
+  {
+    "id": "doc_034",
+    "title": "Hash Tables — Collision Resolution",
+    "content": "Chaining stores colliding elements in linked lists at each bucket. Open addressing probes for the next empty slot (linear, quadratic, double hashing). A good hash function distributes keys uniformly. Load factor above 0.7 triggers resizing to maintain O(1) average operations.",
+    "category": "algorithms"
+  },
+  {
+    "id": "doc_035",
+    "title": "Sliding Window Technique",
+    "content": "The sliding window technique maintains a contiguous subarray/substring as it moves through the input. Use a fixed-size window for problems like max average of k elements. Use a variable window for problems like smallest subarray with sum >= target. Reduces O(n²) to O(n).",
+    "category": "algorithms"
+  },
+  {
+    "id": "doc_036",
+    "title": "Docker Containers vs Virtual Machines",
+    "content": "Containers share the host OS kernel and isolate processes using namespaces and cgroups — they start in milliseconds and use less memory than VMs. VMs include a full OS guest and are fully isolated. Use containers for application packaging; VMs for stronger isolation requirements.",
+    "category": "devops"
+  },
+  {
+    "id": "doc_037",
+    "title": "Kubernetes Pod Scheduling",
+    "content": "The kube-scheduler assigns pods to nodes based on resource requests, node selectors, affinity/anti-affinity rules, and taints/tolerations. Resource requests reserve capacity; limits cap usage. Use Horizontal Pod Autoscaler to scale replicas based on CPU or custom metrics.",
+    "category": "devops"
+  },
+  {
+    "id": "doc_038",
+    "title": "CI/CD Pipeline Design",
+    "content": "A CI pipeline runs on every commit: lint, test, build. A CD pipeline deploys automatically to staging/production. Use feature flags to decouple deployment from release. Blue-green deployments maintain two production environments for zero-downtime switching.",
+    "category": "devops"
+  },
+  {
+    "id": "doc_039",
+    "title": "Infrastructure as Code with Terraform",
+    "content": "Terraform defines infrastructure declaratively in HCL. Plan shows changes before apply. State files track real resource state — store them in remote backends like S3 with locking. Modules encapsulate reusable infrastructure patterns across environments.",
+    "category": "devops"
+  },
+  {
+    "id": "doc_040",
+    "title": "Observability — Logs, Metrics, Traces",
+    "content": "Logs capture discrete events. Metrics aggregate numerical measurements over time (CPU, latency). Distributed traces follow a request across services. Together they form the three pillars of observability. Tools: Prometheus + Grafana for metrics, Jaeger for traces, ELK for logs.",
+    "category": "devops"
+  },
+  {
+    "id": "doc_041",
+    "title": "Vector Databases Explained",
+    "content": "Vector databases store high-dimensional embeddings and support approximate nearest neighbor (ANN) search. They're essential for semantic search, recommendation systems, and RAG pipelines. Key metrics: recall, queries per second, and index build time. Examples: Endee, Qdrant, Weaviate, Pinecone.",
+    "category": "ai_infrastructure"
+  },
+  {
+    "id": "doc_042",
+    "title": "Approximate Nearest Neighbor Search",
+    "content": "ANN algorithms trade a small amount of recall for dramatically faster search. HNSW (Hierarchical Navigable Small World) builds a multi-layer graph — the most popular algorithm for in-memory ANN. IVF (Inverted File Index) partitions vectors into clusters for disk-friendly search.",
+    "category": "ai_infrastructure"
+  },
+  {
+    "id": "doc_043",
+    "title": "Semantic Search vs Keyword Search",
+    "content": "Keyword search matches exact terms using inverted indexes (TF-IDF, BM25). Semantic search embeds queries and documents into vector space and finds nearest neighbors. Hybrid search combines both signals for better recall and precision across diverse query types.",
+    "category": "ai_infrastructure"
+  },
+  {
+    "id": "doc_044",
+    "title": "LLM Hallucination and Grounding",
+    "content": "LLMs hallucinate when they generate plausible-sounding but false information. Grounding techniques include RAG (providing retrieved documents in context), tool use (letting models call verified APIs), and fine-tuning on factual data. Always validate LLM outputs in high-stakes applications.",
+    "category": "ai_infrastructure"
+  },
+  {
+    "id": "doc_045",
+    "title": "Prompt Engineering Best Practices",
+    "content": "Be specific about desired output format. Provide examples (few-shot). Break complex tasks into steps using chain-of-thought prompting. Use system prompts to set context and persona. Temperature controls randomness — use low values for factual tasks, higher for creative ones.",
+    "category": "ai_infrastructure"
+  },
+  {
+    "id": "doc_046",
+    "title": "AI Agent Architectures",
+    "content": "AI agents perceive their environment, plan actions, and execute them in a loop. ReAct agents interleave reasoning and acting steps. Multi-agent systems divide tasks between specialized agents. Long-term memory via vector databases lets agents recall past observations across sessions.",
+    "category": "ai_infrastructure"
+  },
+  {
+    "id": "doc_047",
+    "title": "Chunking Strategies for RAG",
+    "content": "Chunking splits long documents into pieces for indexing. Fixed-size chunks are simple but may break sentences. Sentence-level chunking preserves meaning. Recursive character splitting is good for structured documents. Chunk size affects recall — too large loses precision, too small loses context.",
+    "category": "ai_infrastructure"
+  },
+  {
+    "id": "doc_048",
+    "title": "HTTP/2 and HTTP/3 Improvements",
+    "content": "HTTP/2 adds multiplexing (multiple requests on one connection), header compression (HPACK), and server push. HTTP/3 uses QUIC (UDP-based) to eliminate head-of-line blocking and improve performance on lossy networks. Both require TLS. Use HTTP/2 for APIs and HTTP/3 for high-latency clients.",
+    "category": "networking"
+  },
+  {
+    "id": "doc_049",
+    "title": "WebSockets vs Server-Sent Events",
+    "content": "WebSockets provide full-duplex communication — client and server can send messages at any time. SSE is simpler — server pushes events to client over HTTP. Use WebSockets for real-time bidirectional apps (chat, games). Use SSE for unidirectional streams (live feeds, progress bars).",
+    "category": "networking"
+  },
+  {
+    "id": "doc_050",
+    "title": "TLS Handshake and Certificate Validation",
+    "content": "TLS 1.3 reduces the handshake to one round-trip. The client sends supported cipher suites; the server selects one and sends its certificate. The client verifies the certificate chain against trusted CAs, generates session keys, and both sides confirm with Finished messages.",
+    "category": "networking"
+  }
+]

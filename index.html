@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DocMind — Semantic Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --paper:#FAF8F4;
+  --paper2:#F2EFE9;
+  --paper3:#E8E4DC;
+  --ink:#1A1814;
+  --ink2:#4A4640;
+  --ink3:#8A857D;
+  --teal:#2A7A6A;
+  --teal-light:#E8F4F1;
+  --teal-mid:#B8DDD7;
+  --amber:#8A5A1A;
+  --amber-light:#FBF3E8;
+  --red:#8A2020;
+  --border:#D8D4CC;
+  --shadow:rgba(30,25,20,0.07);
+  --radius:10px;
+}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  min-height:100vh;
+}
+
+.top-rule{height:3px;background:linear-gradient(90deg,var(--teal) 0%,#5BBFAE 40%,var(--teal) 100%)}
+
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 32px 16px;
+  border-bottom:1px solid var(--border);
+  background:var(--paper);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:34px;height:34px;border-radius:8px;
+  background:var(--teal);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.brand-icon svg{width:18px;height:18px;stroke:white;fill:none;stroke-width:2}
+.brand-name{font-family:'Lora',serif;font-size:20px;font-weight:500;letter-spacing:-0.02em;color:var(--ink)}
+.brand-sub{font-size:12px;color:var(--ink3);margin-top:1px}
+.status-chip{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 13px;border-radius:999px;
+  border:1px solid var(--border);background:white;
+  font-size:12px;color:var(--ink3);
+}
+.dot{width:7px;height:7px;border-radius:50%;background:#CCC;flex-shrink:0}
+.dot.live{background:#3BAF7E;box-shadow:0 0 0 3px rgba(59,175,126,0.18)}
+
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 57px)}
+
+/* ── sidebar ── */
+.sidebar{
+  border-right:1px solid var(--border);
+  background:var(--paper);
+  padding:24px 0;
+  position:sticky;top:0;height:calc(100vh - 57px);overflow-y:auto;
+}
+.sidebar-section{margin-bottom:28px;padding:0 20px}
+.sidebar-label{
+  font-size:11px;font-weight:500;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:10px;
+}
+.cat-list{display:flex;flex-direction:column;gap:2px}
+.cat-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 12px;border-radius:8px;
+  cursor:pointer;transition:background 0.12s;
+  font-size:13.5px;color:var(--ink2);user-select:none;
+}
+.cat-item:hover{background:var(--paper2)}
+.cat-item.active{background:var(--teal-light);color:var(--teal);font-weight:500}
+.cat-count{
+  font-size:11px;color:var(--ink3);
+  background:var(--paper3);border-radius:999px;padding:2px 7px;
+}
+.cat-item.active .cat-count{background:var(--teal-mid);color:var(--teal)}
+.sidebar-divider{height:1px;background:var(--border);margin:0 20px 24px}
+.topk-row{display:flex;align-items:center;justify-content:space-between}
+.topk-row label{font-size:13px;color:var(--ink2)}
+.topk-select{
+  background:white;border:1px solid var(--border);
+  color:var(--ink);font-size:13px;
+  padding:5px 8px;border-radius:7px;cursor:pointer;outline:none;
+}
+.about-text{font-size:13px;color:var(--ink3);line-height:1.6}
+.about-text code{
+  font-size:12px;background:var(--paper2);
+  padding:1px 5px;border-radius:4px;font-family:monospace;
+}
+
+/* ── main ── */
+.main{padding:28px 36px;background:var(--paper)}
+
+.search-bar{
+  display:flex;align-items:center;
+  background:white;
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:0 2px 8px var(--shadow);
+  overflow:hidden;margin-bottom:20px;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.search-bar:focus-within{
+  border-color:var(--teal);
+  box-shadow:0 2px 12px rgba(42,122,106,0.12);
+}
+.search-icon{
+  padding:0 14px;color:var(--ink3);flex-shrink:0;
+  display:flex;align-items:center;
+}
+.search-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.search-input{
+  flex:1;border:none;outline:none;background:transparent;
+  font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);
+  padding:14px 0;
+}
+.search-input::placeholder{color:var(--ink3)}
+.search-btn{
+  margin:6px;padding:8px 18px;
+  background:var(--teal);color:white;
+  border:none;border-radius:7px;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+  cursor:pointer;transition:background 0.15s,transform 0.1s;white-space:nowrap;
+}
+.search-btn:hover{background:#236358}
+.search-btn:active{transform:scale(0.97)}
+
+.suggestions-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;align-items:center}
+.sug-label{font-size:12px;color:var(--ink3);margin-right:4px}
+.sug-chip{
+  padding:7px 14px;border-radius:999px;
+  border:1px solid var(--border);background:white;color:var(--ink2);
+  font-size:13px;cursor:pointer;transition:all 0.12s;
+}
+.sug-chip:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-light)}
+
+.section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+.section-title{font-family:'Lora',serif;font-size:17px;font-weight:500;color:var(--ink)}
+.results-meta{font-size:13px;color:var(--ink3)}
+.results-meta strong{color:var(--teal);font-weight:500}
+
+.results-stack{display:flex;flex-direction:column;gap:10px}
+.result-card{
+  background:white;border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;
+  transition:border-color 0.15s,box-shadow 0.15s;
+  animation:fadeup 0.2s ease both;
+}
+.result-card:hover{
+  border-color:var(--teal-mid);
+  box-shadow:0 3px 12px var(--shadow);
+}
+@keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px}
+.card-rank{
+  flex-shrink:0;width:26px;height:26px;border-radius:50%;
+  background:var(--paper2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:500;color:var(--ink3);margin-top:1px;
+}
+.card-title{font-family:'Lora',serif;font-size:16px;font-weight:500;color:var(--ink);line-height:1.3}
+.card-score{
+  margin-left:auto;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+}
+.score-num{font-size:13px;font-weight:500;color:var(--teal)}
+.score-track{width:52px;height:4px;background:var(--paper3);border-radius:2px;overflow:hidden}
+.score-fill{height:100%;border-radius:2px;background:var(--teal)}
+
+.card-body{font-size:13.5px;color:var(--ink2);line-height:1.65;padding-left:40px}
+.card-footer{display:flex;align-items:center;gap:8px;padding-left:40px;margin-top:10px}
+.cat-badge{
+  padding:3px 10px;border-radius:999px;
+  background:var(--teal-light);color:var(--teal);
+  font-size:11.5px;font-weight:500;
+  border:1px solid var(--teal-mid);
+}
+.doc-id{font-size:11px;color:var(--ink3)}
+
+.center-state{text-align:center;padding:56px 20px;color:var(--ink3)}
+.center-state .icon-wrap{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--paper2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+}
+.center-state .icon-wrap svg{width:24px;height:24px;stroke:var(--ink3);fill:none;stroke-width:1.5}
+.center-state h3{font-family:'Lora',serif;font-size:17px;color:var(--ink2);margin-bottom:6px}
+.center-state p{font-size:13.5px;max-width:320px;margin:0 auto;line-height:1.6}
+
+.spinner-row{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:48px;font-size:13px;color:var(--ink3);
+}
+.spinner{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--paper3);border-top-color:var(--teal);
+  animation:spin 0.7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.error-box{
+  background:#FEF6F6;border:1px solid #E8CCCC;
+  border-radius:var(--radius);padding:14px 18px;
+  color:var(--red);font-size:13px;line-height:1.7;
+}
+.error-box code{font-family:monospace;font-size:12px;background:rgba(139,32,32,0.06);padding:1px 5px;border-radius:3px}
+
+
+</style>
+</head>
+<body>
+
+<div class="top-rule"></div>
+
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/><line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/></svg>
+    </div>
+    <div>
+      <div class="brand-name">DocMind</div>
+      <div class="brand-sub">Semantic search · Powered by Endee vector database</div>
+    </div>
+  </div>
+  <div class="status-chip">
+    <div class="dot" id="statusDot"></div>
+    <span id="statusText">checking connection…</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Filter by topic</div>
+      <div class="cat-list" id="catList">
+        <div class="cat-item active" data-cat="">All topics <span class="cat-count">50</span></div>
+        <div class="cat-item" data-cat="python">Python <span class="cat-count">8</span></div>
+        <div class="cat-item" data-cat="machine_learning">Machine learning <span class="cat-count">8</span></div>
+        <div class="cat-item" data-cat="databases">Databases <span class="cat-count">5</span></div>
+        <div class="cat-item" data-cat="system_design">System design <span class="cat-count">6</span></div>
+        <div class="cat-item" data-cat="algorithms">Algorithms <span class="cat-count">7</span></div>
+        <div class="cat-item" data-cat="devops">DevOps <span class="cat-count">5</span></div>
+        <div class="cat-item" data-cat="ai_infrastructure">AI infrastructure <span class="cat-count">7</span></div>
+        <div class="cat-item" data-cat="networking">Networking <span class="cat-count">4</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Results per query</div>
+      <div class="topk-row">
+        <label for="topkSel">Show top</label>
+        <select id="topkSel" class="topk-select">
+          <option value="3">3 results</option>
+          <option value="5" selected>5 results</option>
+          <option value="8">8 results</option>
+          <option value="10">10 results</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">How it works</div>
+      <p class="about-text">
+        DocMind finds documents by <em>meaning</em>, not just keywords. Queries and documents are embedded using <code>all-MiniLM-L6-v2</code> and retrieved from <strong>Endee</strong> via approximate nearest-neighbor search.
+      </p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="search-bar">
+      <div class="search-icon">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      </div>
+      <input class="search-input" id="qInput" type="text"
+        placeholder="Ask anything — try 'how to reduce memory in Python'…"
+        autocomplete="off"/>
+      <button class="search-btn" id="searchBtn">Search</button>
+    </div>
+
+    <div class="suggestions-row">
+      <span class="sug-label">Try →</span>
+      <button class="sug-chip">async error handling</button>
+      <button class="sug-chip">how attention works in transformers</button>
+      <button class="sug-chip">caching strategies</button>
+      <button class="sug-chip">NoSQL vs SQL</button>
+      <button class="sug-chip">RAG pipeline for LLMs</button>
+      <button class="sug-chip">shortest path algorithm</button>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title" id="sectionTitle">Knowledge base</div>
+      <div class="results-meta" id="resultsMeta"></div>
+    </div>
+
+    <div id="resultsContainer">
+      <div class="center-state">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>50 documents indexed</h3>
+        <p>Type a question above to find the most relevant documents using semantic vector search.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+
+<script>
+const API = "http://localhost:8000";
+let activeCat = "";
+
+async function checkHealth() {
+  const dot = document.getElementById("statusDot");
+  const txt = document.getElementById("statusText");
+  try {
+    const r = await fetch(`${API}/health`, { signal: AbortSignal.timeout(3000) });
+    const d = await r.json();
+    if (d.endee_connected) { dot.classList.add("live"); txt.textContent = "Endee connected"; }
+    else txt.textContent = "API up · Endee offline";
+  } catch { txt.textContent = "API server offline"; }
+}
+checkHealth();
+
+document.querySelectorAll(".cat-item").forEach(el => {
+  el.addEventListener("click", () => {
+    document.querySelectorAll(".cat-item").forEach(x => x.classList.remove("active"));
+    el.classList.add("active");
+    activeCat = el.dataset.cat;
+    const q = document.getElementById("qInput").value.trim();
+    if (q) doSearch(q);
+  });
+});
+
+document.querySelectorAll(".sug-chip").forEach(c => {
+  c.addEventListener("click", () => {
+    document.getElementById("qInput").value = c.textContent;
+    doSearch(c.textContent);
+  });
+});
+
+document.getElementById("searchBtn").addEventListener("click", () => {
+  const q = document.getElementById("qInput").value.trim();
+  if (q) doSearch(q);
+});
+document.getElementById("qInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") { const q = e.target.value.trim(); if (q) doSearch(q); }
+});
+
+async function doSearch(query) {
+  const box = document.getElementById("resultsContainer");
+  const meta = document.getElementById("resultsMeta");
+  const title = document.getElementById("sectionTitle");
+  const topK = parseInt(document.getElementById("topkSel").value);
+
+  box.innerHTML = `<div class="spinner-row"><div class="spinner"></div>Searching Endee…</div>`;
+  meta.innerHTML = "";
+  title.textContent = "Searching…";
+
+  const body = { query, top_k: topK };
+  if (activeCat) body.category_filter = activeCat;
+
+  try {
+    const r = await fetch(`${API}/search`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(10000)
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    render(data, query);
+  } catch (err) {
+    title.textContent = "Connection error";
+    box.innerHTML = `<div class="error-box">
+      Could not reach the API at <code>${API}</code>.<br/>
+      Make sure the backend is running: <code>uvicorn main:app --port 8000</code> inside the <code>backend/</code> folder.
+    </div>`;
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function render(data, query) {
+  const box = document.getElementById("resultsContainer");
+  const meta = document.getElementById("resultsMeta");
+  const title = document.getElementById("sectionTitle");
+
+  title.textContent = `Results for "${query}"`;
+
+  if (!data.results.length) {
+    meta.innerHTML = "";
+    box.innerHTML = `<div class="center-state">
+      <div class="icon-wrap"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
+      <h3>No results found</h3>
+      <p>Try a different query or remove the category filter.</p>
+    </div>`;
+    return;
+  }
+
+  meta.innerHTML = `<strong>${data.total}</strong> result${data.total !== 1 ? "s" : ""} &nbsp;·&nbsp; <strong>${data.query_time_ms}ms</strong>`;
+
+  box.innerHTML = `<div class="results-stack">${data.results.map((r, i) => `
+    <div class="result-card" style="animation-delay:${i * 45}ms">
+      <div class="card-top">
+        <div class="card-rank">${i + 1}</div>
+        <div class="card-title">${esc(r.title)}</div>
+        <div class="card-score">
+          <span class="score-num">${r.score.toFixed(3)}</span>
+          <div class="score-track"><div class="score-fill" style="width:${Math.round(r.score * 100)}%"></div></div>
+        </div>
+      </div>
+      <div class="card-body">${esc(r.content)}</div>
+      <div class="card-footer">
+        <span class="cat-badge">${r.category.replace(/_/g, " ")}</span>
+        <span class="doc-id">${r.id}</span>
+      </div>
+    </div>`).join("")}</div>`;
+}
+</script>
+
+</body>
+</html>
